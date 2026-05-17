@@ -2,7 +2,7 @@
   "name": "Spelling Bee",
   "short_name": "Spelling Bee",
   "description": "The ultimate 2-player party spelling game",
-  "start_url": "/",
+  "start_url": "/spelling-bee/",
   "display": "standalone",
   "background_color": "#FFF3D6",
   "theme_color": "#F5A623",
