@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🐝 Spelling Bee</title>
+  <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --amber: #F5A623;
+      --amber-dk: #C17D0A;
+      --amber-lt: #FFF3D6;
+      --blue: #378ADD;
+      --black: #1A1207;
+      --white: #FFFDF5;
+      --card: #FFFFFF;
+      --muted: #8A7A5A;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--white);
+      color: var(--black);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      position: relative;
+      background: var(--amber-lt);
+      overflow: hidden;
+    }
+
+    /* honeycomb bg */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(245,166,35,0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(245,166,35,0.1) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .hex-grid {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      opacity: 0.06;
+    }
+
+    .hex-grid svg {
+      width: 100%; height: 100%;
+    }
+
+    .bee-emoji {
+      font-size: clamp(4rem, 12vw, 8rem);
+      display: block;
+      margin-bottom: 1rem;
+      animation: float 3s ease-in-out infinite;
+      filter: drop-shadow(0 8px 24px rgba(193,125,10,0.3));
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(-3deg); }
+      50%       { transform: translateY(-16px) rotate(3deg); }
+    }
+
+    .hero-title {
+      font-family: 'Boogaloo', cursive;
+      font-size: clamp(3rem, 10vw, 7rem);
+      color: var(--black);
+      line-height: 1;
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+      animation: slideUp 0.6s ease both;
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      color: var(--muted);
+      font-weight: 700;
+      margin-bottom: 2.5rem;
+      animation: slideUp 0.6s 0.1s ease both;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .download-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: slideUp 0.6s 0.2s ease both;
+    }
+
+    .dl-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.9rem 1.8rem;
+      border-radius: 14px;
+      border: none;
+      font-family: 'Nunito', sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .dl-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+    .dl-btn:active { transform: translateY(0); }
+
+    .dl-btn.windows {
+      background: var(--black);
+      color: #fff;
+    }
+
+    .dl-btn.mac {
+      background: var(--amber);
+      color: var(--black);
+    }
+
+    .dl-btn .os-icon { font-size: 1.4rem; }
+    .dl-btn .dl-text { text-align: left; line-height: 1.2; }
+    .dl-btn .dl-label { font-size: 0.7rem; opacity: 0.7; display: block; text-transform: uppercase; letter-spacing: 0.5px; }
+    .dl-btn .dl-name  { font-size: 1rem; }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      animation: fadeIn 1s 1s ease both;
+    }
+
+    .scroll-hint .arrow {
+      animation: bounce 1.5s ease-in-out infinite;
+      font-size: 1.2rem;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(6px); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    /* ── HOW TO PLAY ── */
+    .section {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+    }
+
+    .section-title {
+      font-family: 'Boogaloo', cursive;
+      font-size: clamp(2rem, 5vw, 3rem);
+      text-align: center;
+      margin-bottom: 3rem;
+      color: var(--black);
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .step {
+      background: var(--card);
+      border: 2px solid #F0E8D0;
+      border-radius: 18px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .step:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(193,125,10,0.12); }
+
+    .step-num {
+      font-family: 'Boogaloo', cursive;
+      font-size: 2.5rem;
+      color: var(--amber);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .step-emoji { font-size: 2rem; display: block; margin-bottom: 0.75rem; }
+
+    .step h3 {
+      font-size: 1rem;
+      font-weight: 800;
+      margin-bottom: 0.4rem;
+      color: var(--black);
+    }
+
+    .step p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* ── SCORING ── */
+    .scoring-section {
+      background: var(--black);
+      color: #fff;
+      padding: 5rem 2rem;
+      text-align: center;
+    }
+
+    .scoring-section .section-title { color: #fff; }
+
+    .score-cards {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .score-card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 14px;
+      padding: 1.25rem 1.75rem;
+      flex: 1;
+      min-width: 150px;
+    }
+
+    .score-card .pts {
+      font-family: 'Boogaloo', cursive;
+      font-size: 2.5rem;
+      color: var(--amber);
+      line-height: 1;
+    }
+
+    .score-card .desc {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.6);
+      margin-top: 0.3rem;
+      font-weight: 700;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 700;
+      border-top: 1px solid #F0E8D0;
+    }
+
+    footer span { color: var(--amber); }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hex-grid">
+    <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <pattern id="hex" x="0" y="0" width="60" height="52" patternUnits="userSpaceOnUse">
+          <polygon points="30,2 58,17 58,47 30,62 2,47 2,17" fill="none" stroke="#C17D0A" stroke-width="1.5"/>
+        </pattern>
+      </defs>
+      <rect width="1200" height="800" fill="url(#hex)"/>
+    </svg>
+  </div>
+
+  <span class="bee-emoji">🐝</span>
+  <h1 class="hero-title">Spelling Bee</h1>
+  <p class="hero-sub">The ultimate 2-player party spelling game</p>
+  <p style="font-family:'Boogaloo',cursive; font-size:1.1rem; color:var(--amber-dk); margin-bottom:1.5rem; margin-top:-1rem; animation: slideUp 0.6s 0.15s ease both;">by Barbod Azizibabani · 8TAS7</p>
+
+  <div class="download-row">
+    <a class="dl-btn windows" href="YOUR_WINDOWS_LINK_HERE" download>
+      <span class="os-icon">🪟</span>
+      <span class="dl-text">
+        <span class="dl-label">Download for</span>
+        <span class="dl-name">Windows</span>
+      </span>
+    </a>
+    <a class="dl-btn mac" href="YOUR_MAC_LINK_HERE" download>
+      <span class="os-icon">🍎</span>
+      <span class="dl-text">
+        <span class="dl-label">Download for</span>
+        <span class="dl-name">macOS</span>
+      </span>
+    </a>
+  </div>
+
+  <div class="scroll-hint">
+    <span>How to play</span>
+    <span class="arrow">↓</span>
+  </div>
+</section>
+
+<!-- HOW TO PLAY -->
+<section class="section">
+  <h2 class="section-title">How to play 🎮</h2>
+  <div class="steps">
+    <div class="step">
+      <span class="step-emoji">🤫</span>
+      <div class="step-num">1</div>
+      <h3>Player 1 picks a word</h3>
+      <p>Type a tricky word and a pronunciation hint — keep it secret!</p>
+    </div>
+    <div class="step">
+      <span class="step-emoji">📱</span>
+      <div class="step-num">2</div>
+      <h3>Pass the device</h3>
+      <p>The screen clears automatically. Hand it over to Player 2.</p>
+    </div>
+    <div class="step">
+      <span class="step-emoji">✍️</span>
+      <div class="step-num">3</div>
+      <h3>Player 2 spells it</h3>
+      <p>They hear the pronunciation hint and try to spell the word.</p>
+    </div>
+    <div class="step">
+      <span class="step-emoji">🏆</span>
+      <div class="step-num">4</div>
+      <h3>Score points</h3>
+      <p>Harder words = more points. Most points at the end wins!</p>
+    </div>
+  </div>
+</section>
+
+<!-- SCORING -->
+<section class="scoring-section">
+  <h2 class="section-title">How scoring works 🧮</h2>
+  <div class="score-cards">
+    <div class="score-card">
+      <div class="pts">+1</div>
+      <div class="desc">per letter in the word</div>
+    </div>
+    <div class="score-card">
+      <div class="pts">+3</div>
+      <div class="desc">per tricky pattern (ph, gh, ie…)</div>
+    </div>
+    <div class="score-card">
+      <div class="pts">+2</div>
+      <div class="desc">per double letter (ll, ss, tt…)</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  Made with <span>🐝</span> and lots of spelling mistakes<br/>
+  <span style="font-size:1rem; color: var(--black); font-weight:800; margin-top:0.5rem; display:inline-block;">by Barbod Azizibabani · 8TAS7</span>
+</footer>
+
+</body>
+</html>
