@@ -4,12 +4,6 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>🐝 Spelling Bee</title>
-  <link rel="manifest" href="manifest.json"/>
-  <meta name="theme-color" content="#F5A623"/>
-  <meta name="apple-mobile-web-app-capable" content="yes"/>
-  <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
-  <meta name="apple-mobile-web-app-title" content="Spelling Bee"/>
-  <link rel="apple-touch-icon" href="icons/icon-192x192.png"/>
   <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -18,8 +12,6 @@
       --amber: #F5A623;
       --amber-dk: #C17D0A;
       --amber-lt: #FFF3D6;
-      --blue: #378ADD;
-      --green: #3DAA6E;
       --black: #1A1207;
       --white: #FFFDF5;
       --card: #FFFFFF;
@@ -59,14 +51,7 @@
       pointer-events: none;
     }
 
-    .hex-grid {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-      opacity: 0.06;
-    }
-
+    .hex-grid { position: absolute; inset: 0; pointer-events: none; overflow: hidden; opacity: 0.06; }
     .hex-grid svg { width: 100%; height: 100%; }
 
     .bee-emoji {
@@ -140,7 +125,6 @@
     .dl-btn:active { transform: translateY(0); }
     .dl-btn.windows { background: var(--black); color: #fff; }
     .dl-btn.mac     { background: var(--amber); color: var(--black); }
-    .dl-btn.mobile  { background: var(--green); color: #fff; }
 
     .dl-btn .os-icon { font-size: 1.4rem; }
     .dl-btn .dl-text { text-align: left; line-height: 1.2; }
@@ -149,8 +133,7 @@
 
     .scroll-hint {
       position: absolute;
-      bottom: 2rem;
-      left: 50%;
+      bottom: 2rem; left: 50%;
       transform: translateX(-50%);
       color: var(--muted);
       font-size: 0.85rem;
@@ -174,135 +157,7 @@
       to   { opacity: 1; }
     }
 
-    /* ── MODAL ── */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.5);
-      z-index: 1000;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-      animation: fadeIn 0.2s ease;
-    }
-
-    .modal-overlay.open { display: flex; }
-
-    .modal {
-      background: var(--white);
-      border-radius: 24px;
-      padding: 2rem;
-      max-width: 480px;
-      width: 100%;
-      position: relative;
-      animation: slideUp 0.25s ease;
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-
-    .modal-close {
-      position: absolute;
-      top: 1rem; right: 1rem;
-      background: #F0E8D0;
-      border: none;
-      width: 32px; height: 32px;
-      border-radius: 50%;
-      font-size: 1rem;
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 800;
-    }
-
-    .modal-title {
-      font-family: 'Boogaloo', cursive;
-      font-size: 1.8rem;
-      margin-bottom: 0.3rem;
-    }
-
-    .modal-sub {
-      color: var(--muted);
-      font-size: 0.9rem;
-      font-weight: 700;
-      margin-bottom: 1.5rem;
-    }
-
-    /* tabs */
-    .tabs {
-      display: flex;
-      gap: 0.5rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .tab {
-      flex: 1;
-      padding: 0.6rem;
-      border-radius: 10px;
-      border: 2px solid #F0E8D0;
-      background: transparent;
-      font-family: 'Nunito', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 800;
-      cursor: pointer;
-      transition: all 0.15s;
-      color: var(--muted);
-    }
-
-    .tab.active {
-      background: var(--black);
-      border-color: var(--black);
-      color: #fff;
-    }
-
-    .tab-content { display: none; }
-    .tab-content.active { display: block; }
-
-    .install-steps { display: flex; flex-direction: column; gap: 1rem; }
-
-    .install-step {
-      display: flex;
-      gap: 1rem;
-      align-items: flex-start;
-      background: #FAFAF7;
-      border: 1px solid #F0E8D0;
-      border-radius: 14px;
-      padding: 1rem;
-    }
-
-    .install-step .num {
-      font-family: 'Boogaloo', cursive;
-      font-size: 1.5rem;
-      color: var(--amber);
-      line-height: 1;
-      min-width: 28px;
-    }
-
-    .install-step .info strong {
-      display: block;
-      font-size: 0.95rem;
-      font-weight: 800;
-      color: var(--black);
-      margin-bottom: 0.2rem;
-    }
-
-    .install-step .info span {
-      font-size: 0.83rem;
-      color: var(--muted);
-      line-height: 1.4;
-    }
-
-    .install-step .emoji-icon {
-      font-size: 1.5rem;
-      min-width: 28px;
-      text-align: center;
-    }
-
-    /* ── HOW TO PLAY ── */
-    .section {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 5rem 2rem;
-    }
+    .section { max-width: 800px; margin: 0 auto; padding: 5rem 2rem; }
 
     .section-title {
       font-family: 'Boogaloo', cursive;
@@ -312,11 +167,7 @@
       color: var(--black);
     }
 
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.5rem;
-    }
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
 
     .step {
       background: var(--card);
@@ -329,153 +180,33 @@
 
     .step:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(193,125,10,0.12); }
 
-    .step-num {
-      font-family: 'Boogaloo', cursive;
-      font-size: 2.5rem;
-      color: var(--amber);
-      line-height: 1;
-      margin-bottom: 0.5rem;
-    }
-
+    .step-num { font-family: 'Boogaloo', cursive; font-size: 2.5rem; color: var(--amber); line-height: 1; margin-bottom: 0.5rem; }
     .step-emoji { font-size: 2rem; display: block; margin-bottom: 0.75rem; }
-
     .step h3 { font-size: 1rem; font-weight: 800; margin-bottom: 0.4rem; color: var(--black); }
     .step p  { font-size: 0.88rem; color: var(--muted); line-height: 1.5; }
 
-    /* ── SCORING ── */
-    .scoring-section {
-      background: var(--black);
-      color: #fff;
-      padding: 5rem 2rem;
-      text-align: center;
-    }
-
+    .scoring-section { background: var(--black); color: #fff; padding: 5rem 2rem; text-align: center; }
     .scoring-section .section-title { color: #fff; }
 
-    .score-cards {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      max-width: 600px;
-      margin: 0 auto;
-    }
+    .score-cards { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; max-width: 600px; margin: 0 auto; }
 
     .score-card {
       background: rgba(255,255,255,0.07);
       border: 1px solid rgba(255,255,255,0.12);
       border-radius: 14px;
       padding: 1.25rem 1.75rem;
-      flex: 1;
-      min-width: 150px;
+      flex: 1; min-width: 150px;
     }
 
     .score-card .pts  { font-family: 'Boogaloo', cursive; font-size: 2.5rem; color: var(--amber); line-height: 1; }
     .score-card .desc { font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-top: 0.3rem; font-weight: 700; }
 
-    footer {
-      text-align: center;
-      padding: 2rem;
-      color: var(--muted);
-      font-size: 0.85rem;
-      font-weight: 700;
-      border-top: 1px solid #F0E8D0;
-    }
-
+    footer { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.85rem; font-weight: 700; border-top: 1px solid #F0E8D0; }
     footer span { color: var(--amber); }
   </style>
 </head>
 <body>
 
-<!-- MOBILE INSTALL MODAL -->
-<div class="modal-overlay" id="mobileModal">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal()">✕</button>
-    <div class="modal-title">📱 Install on Mobile</div>
-    <div class="modal-sub">No app store needed — works on iPhone & Android!</div>
-
-    <div class="tabs">
-      <button class="tab active" onclick="switchTab('iphone')">🍎 iPhone</button>
-      <button class="tab"        onclick="switchTab('android')">🤖 Android</button>
-    </div>
-
-    <!-- iPhone steps -->
-    <div class="tab-content active" id="tab-iphone">
-      <div class="install-steps">
-        <div class="install-step">
-          <span class="num">1</span>
-          <div class="info">
-            <strong>Open in Safari</strong>
-            <span>Make sure you're using Safari — it won't work in Chrome or other browsers on iPhone.</span>
-          </div>
-        </div>
-        <div class="install-step">
-          <span class="num">2</span>
-          <div class="info">
-            <strong>Tap the Share button</strong>
-            <span>It's the box with an arrow pointing up at the bottom of the screen.</span>
-          </div>
-          <span class="emoji-icon">⬆️</span>
-        </div>
-        <div class="install-step">
-          <span class="num">3</span>
-          <div class="info">
-            <strong>Tap "Add to Home Screen"</strong>
-            <span>Scroll down in the share menu until you see this option and tap it.</span>
-          </div>
-          <span class="emoji-icon">➕</span>
-        </div>
-        <div class="install-step">
-          <span class="num">4</span>
-          <div class="info">
-            <strong>Tap "Add"</strong>
-            <span>Confirm in the top right corner. The bee icon will appear on your home screen!</span>
-          </div>
-          <span class="emoji-icon">🐝</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Android steps -->
-    <div class="tab-content" id="tab-android">
-      <div class="install-steps">
-        <div class="install-step">
-          <span class="num">1</span>
-          <div class="info">
-            <strong>Open in Chrome</strong>
-            <span>Make sure you're using Google Chrome on your Android device.</span>
-          </div>
-        </div>
-        <div class="install-step">
-          <span class="num">2</span>
-          <div class="info">
-            <strong>Tap the three dots</strong>
-            <span>Tap the ⋮ menu in the top right corner of Chrome.</span>
-          </div>
-          <span class="emoji-icon">⋮</span>
-        </div>
-        <div class="install-step">
-          <span class="num">3</span>
-          <div class="info">
-            <strong>Tap "Add to Home Screen"</strong>
-            <span>You might also see "Install App" — tap either one.</span>
-          </div>
-          <span class="emoji-icon">➕</span>
-        </div>
-        <div class="install-step">
-          <span class="num">4</span>
-          <div class="info">
-            <strong>Tap "Add"</strong>
-            <span>Confirm and the bee icon will appear on your home screen!</span>
-          </div>
-          <span class="emoji-icon">🐝</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- HERO -->
 <section class="hero">
   <div class="hex-grid">
     <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
@@ -494,27 +225,20 @@
   <p class="hero-author">by Barbod Azizibabani · 8TAS7</p>
 
   <div class="download-row">
-    <a class="dl-btn windows" href="YOUR_WINDOWS_LINK_HERE" download>
+    <a class="dl-btn windows" href="https://github.com/barbodazizibabani-max/spelling-bee/releases/download/v1.0.0/Spelling.Bee.Setup.1.0.0.exe" download>
       <span class="os-icon">🪟</span>
       <span class="dl-text">
         <span class="dl-label">Download for</span>
         <span class="dl-name">Windows</span>
       </span>
     </a>
-    <a class="dl-btn mac" href="YOUR_MAC_LINK_HERE" download>
+    <a class="dl-btn mac" href="https://github.com/barbodazizibabani-max/spelling-bee/releases/download/v1.0.0/Spelling.Bee-1.0.0-arm64.dmg" download>
       <span class="os-icon">🍎</span>
       <span class="dl-text">
         <span class="dl-label">Download for</span>
         <span class="dl-name">macOS</span>
       </span>
     </a>
-    <button class="dl-btn mobile" onclick="openModal()">
-      <span class="os-icon">📱</span>
-      <span class="dl-text">
-        <span class="dl-label">Install on</span>
-        <span class="dl-name">Mobile</span>
-      </span>
-    </button>
   </div>
 
   <div class="scroll-hint">
@@ -523,7 +247,6 @@
   </div>
 </section>
 
-<!-- HOW TO PLAY -->
 <section class="section">
   <h2 class="section-title">How to play 🎮</h2>
   <div class="steps">
@@ -554,7 +277,6 @@
   </div>
 </section>
 
-<!-- SCORING -->
 <section class="scoring-section">
   <h2 class="section-title">How scoring works 🧮</h2>
   <div class="score-cards">
@@ -573,34 +295,10 @@
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   Made with <span>🐝</span> and lots of spelling mistakes<br/>
   <span style="font-size:1rem; color: var(--black); font-weight:800; margin-top:0.5rem; display:inline-block;">by Barbod Azizibabani · 8TAS7</span>
 </footer>
 
-<script>
-  // PWA service worker
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("./sw.js").catch(() => {});
-  }
-
-  // Modal
-  function openModal()  { document.getElementById('mobileModal').classList.add('open'); }
-  function closeModal() { document.getElementById('mobileModal').classList.remove('open'); }
-
-  // Close on overlay click
-  document.getElementById('mobileModal').addEventListener('click', function(e) {
-    if (e.target === this) closeModal();
-  });
-
-  // Tabs
-  function switchTab(tab) {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-    document.getElementById('tab-' + tab).classList.add('active');
-    event.target.classList.add('active');
-  }
-</script>
 </body>
 </html>
